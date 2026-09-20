@@ -40,7 +40,7 @@ real is perception: the detector still reads the simulator's ground truth.
 
 | Repo | What lives there | Where it is |
 |---|---|---|
-| [**Simulation**](https://github.com/STACKSPECT/Simulation/tree/dev) | **The real cell, and the bulk of the project.** UR10e + suction, three sources, CoG-aware planner, depth-camera pallet survey, MuJoCo. | 🟢 **Closed loop, running.** 250 checks green, [148 of 165 packages placed](#measured-not-claimed) across 27 episodes. **Perception is the one stub left.** |
+| [**Simulation**](https://github.com/STACKSPECT/Simulation/tree/dev) | **The real cell, and the bulk of the project.** UR10e + suction, three sources, CoG-aware planner, depth-camera pallet survey, MuJoCo. | 🟢 **Closed loop, running.** 250 checks green, [158 of 165 packages placed](#measured-not-claimed) across 27 episodes. **Perception is the one stub left.** |
 | [**Platform**](https://github.com/STACKSPECT/Platform) | Observability — Supabase schema, the `theker_telemetry` SDK, a Next.js interface with four screens. | 🟢 **Running**, on real measured episodes. 101 backend checks green. |
 | [**Guionized-simulation**](https://github.com/STACKSPECT/Guionized-simulation) | The predecessor: a scripted pallet build with a Franka Emika Panda. The slot assignment comes out of a YAML file; the physics does not. | 🟢 **Done, and superseded.** It fixed the contract with the platform. [Its numbers are below](#the-baseline-it-had-to-clear). |
 
@@ -63,17 +63,21 @@ and the platform did not have to change to receive them.
 
 ## Built on
 
-| | Does what, here |
-|---|---|
-| ![MuJoCo](https://img.shields.io/badge/MuJoCo-3.13-1f1f1f?style=for-the-badge) | Contacts and friction. The release, the settle and the shake are **simulated, not assumed** |
-| ![Python](https://img.shields.io/badge/Python-3.11+-1f1f1f?style=for-the-badge&logo=python&logoColor=white) | The cell, the planner, the panel. Dependencies pinned with `==` throughout |
-| ![NumPy](https://img.shields.io/badge/NumPy-1f1f1f?style=for-the-badge&logo=numpy&logoColor=white) | The placement heuristic imports this **and nothing else** — a boundary a test enforces |
-| ![mink](https://img.shields.io/badge/mink%20·%20qpsolvers%20·%20daqp-1.3-1f1f1f?style=for-the-badge) | Damped least-squares IK for the UR10e's six joints |
-| ![SciPy](https://img.shields.io/badge/SciPy-1f1f1f?style=for-the-badge&logo=scipy&logoColor=white) | The geometry of the measurement — the SVD that hands back the wrist gauge's blind axis |
-| ![PyYAML](https://img.shields.io/badge/PyYAML-1f1f1f?style=for-the-badge) | Nine levels and fourteen scoring weights live in YAML, **not in code** |
-| ![Supabase](https://img.shields.io/badge/Supabase-1f1f1f?style=for-the-badge&logo=supabase&logoColor=white) | **Is** the backend — PostgREST, RLS, Realtime. No server of our own in between |
-| ![Next.js](https://img.shields.io/badge/Next.js%2016%20·%20React%2019%20·%20TS-1f1f1f?style=for-the-badge&logo=nextdotjs&logoColor=white) | Four screens over one pallet drawing |
-| ![stdlib](https://img.shields.io/badge/Python%20stdlib%20http.server-1f1f1f?style=for-the-badge) | The control panel. No framework, no bundler — it works with the wifi switched off |
+<div align="center">
+
+<sub><b>THE CELL</b> — contacts and friction, so the release, the settle and the shake are simulated rather than assumed</sub>
+
+[![MuJoCo](https://img.shields.io/badge/MuJoCo-3.13-1f1f1f?style=for-the-badge)](https://mujoco.org) [![mink](https://img.shields.io/badge/mink-1.3-1f1f1f?style=for-the-badge)](https://github.com/kevinzakka/mink) [![qpsolvers](https://img.shields.io/badge/qpsolvers-4.13-1f1f1f?style=for-the-badge)](https://github.com/qpsolvers/qpsolvers) [![daqp](https://img.shields.io/badge/daqp-0.9-1f1f1f?style=for-the-badge)](https://github.com/darnstrom/daqp)
+
+<sub><b>THE PLANNER</b> — fourteen weights in YAML, not in code; it imports numpy and nothing else, and a test enforces it</sub>
+
+[![Python](https://img.shields.io/badge/Python-3.11+-1f1f1f?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org) [![NumPy](https://img.shields.io/badge/NumPy-2.4-1f1f1f?style=for-the-badge&logo=numpy&logoColor=white)](https://numpy.org) [![SciPy](https://img.shields.io/badge/SciPy-1.18-1f1f1f?style=for-the-badge&logo=scipy&logoColor=white)](https://scipy.org) [![PyYAML](https://img.shields.io/badge/PyYAML-6.0-1f1f1f?style=for-the-badge)](https://pyyaml.org) [![pytest](https://img.shields.io/badge/pytest-250%20green-1f1f1f?style=for-the-badge&logo=pytest&logoColor=white)](https://docs.pytest.org)
+
+<sub><b>THE PLATFORM</b> — Supabase <i>is</i> the backend, with no server of our own in between</sub>
+
+[![Supabase](https://img.shields.io/badge/Supabase-1f1f1f?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com) [![Postgres](https://img.shields.io/badge/Postgres%20·%20RLS%20·%20Realtime-1f1f1f?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org) [![Next.js](https://img.shields.io/badge/Next.js-16-1f1f1f?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org) [![React](https://img.shields.io/badge/React-19-1f1f1f?style=for-the-badge&logo=react&logoColor=white)](https://react.dev) [![TypeScript](https://img.shields.io/badge/TypeScript-1f1f1f?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org) [![stdlib](https://img.shields.io/badge/stdlib%20http.server-1f1f1f?style=for-the-badge&logo=python&logoColor=white)](https://docs.python.org/3/library/http.server.html)
+
+</div>
 
 ## The cycle, in the order it happens
 
@@ -115,7 +119,7 @@ before any stage was real. Three of four have been replaced. A run is flagged `o
 | **Perceive** | `OracleDetector` → `CameraDetector` | ⬜ **Not written.** `observe()` raises `NotImplementedError`. This is what keeps `oracle` true |
 | **Gauge** | `OracleGauge` → `WristGauge` | ✅ **Real.** Force/torque at the wrist, one plumb reading · `--no-oracle-gauge` |
 | **Pallet survey** | ground truth → three depth cameras | ✅ **Real.** Renders depth, unprojects, fuses · `--no-oracle-heightmap` |
-| **Decide** | `GridPlanner` → `ScorePlanner` | ✅ **Real, and the default.** `BeamPlanner` and the grid baseline stay for comparison |
+| **Decide** | `GridPlanner` → `BeamPlanner` | ✅ **Real.** The beam search is what the numbers below are measured with (`--beam-planner`); the score heuristic is the CLI default and the grid filler the floor, and [both are reported beside it](#three-planners-one-method) |
 
 `oracle` is computed from which pieces were selected, never written by hand. The platform
 refuses to compare an oracle run against a measured one — that is exactly the comparison that
@@ -154,8 +158,8 @@ that quietly writes to the production database poisons the benchmark it exists t
 
 ## Measured, not claimed
 
-Nine levels × three seeds, on `Simulation@dev` at **`6724d81`**, the real `ScorePlanner`,
-`--no-telemetry`, measured off the simulator's own state.
+Nine levels × three seeds, on `Simulation@dev` at **`6724d81`**, the real **beam search**
+(`--beam-planner`), `--no-telemetry`, measured off the simulator's own state.
 
 Two columns because the arm has two honest modes, and conflating them would flatter it. In
 fast-forward it jumps between waypoints — release, settling and shake are simulated the same,
@@ -163,68 +167,90 @@ the transit is not. With motion interpolated, every millimetre is integrated.
 
 | | fast-forward | motion interpolated |
 |---|---|---|
-| | `--level N -n 3` | `--level N -n 3 --speed 1` |
-| Episodes completed | **22 / 27** | 14 / 27 |
-| Packages placed | **148 / 165** · 90 % | 112 / 165 · 68 % |
-| Placement error — mean · p95 · max | 2.4 · 3.9 · **4.6 mm** | 2.6 · 4.1 · 6.1 mm |
-| Placements resting fully supported | 78 % | 73 % |
-| Stability margin, worst case | **+53 mm** | **+53 mm** |
+| | `--level N -n 3 --beam-planner` | `… --beam-planner --speed 1` |
+| Episodes completed | **25 / 27** | **22 / 27** |
+| Packages placed | **158 / 165** · 96 % | **141 / 165** · 85 % |
+| Placement error — mean · p95 · max | 2.5 · 3.8 · 5.1 mm | 3.1 · 4.5 · 9.7 mm |
+| Placements resting fully supported | 67 % | 66 % |
+| Stability margin, worst case | **+48 mm** | **+47 mm** |
 | Margin ever negative | never | never |
-| Dominant failure | `wrong_placement` 3, `ik_unreachable` 2 | **`stack_collapse`** — 9 of 13 |
+| Dominant failure | `stack_collapse` 1, `wrong_placement` 1 | **`stack_collapse`** — 3 of 5 |
 
 By tier, the shape is what you would want it to be — the easy levels are solved and the hard
 ones are the frontier:
 
 | | N1 — one type, aligned | N2 — mixed, rotated | N3 — sorted, adversarial CoG |
 |---|:--:|:--:|:--:|
-| fast-forward | 9 / 9 | 8 / 9 | 5 / 9 |
-| motion interpolated | 7 / 9 | 4 / 9 | 3 / 9 |
+| fast-forward | 9 / 9 | 8 / 9 | 8 / 9 |
+| motion interpolated | 9 / 9 | 7 / 9 | 6 / 9 |
 
 Every failure came out of the closed vocabulary below. Not one run invented a cause.
 
+### Three planners, one method
+
+The cell ships three, and the honest way to show what the search buys is to run all of them
+over the same nine levels and the same three seeds. **The interpolated column is the one that
+counts** — it is the one where the arm actually travels:
+
+| motion interpolated | grid baseline | score heuristic | **beam search** |
+|---|---:|---:|---:|
+| Episodes completed | 12 / 27 | 14 / 27 | **22 / 27** |
+| Packages placed | 90 · 55 % | 112 · 68 % | **141 · 85 %** |
+| `stack_collapse` failures | 12 | 9 | **3** |
+| Stability margin, worst case | +28 mm | +53 mm | +47 mm |
+
+And the reason to distrust fast-forward is in the gap between the two modes. In fast-forward
+the grid baseline looks like the *best* of the three — 160 of 165 packages, more than the beam
+search places. Let the arm actually travel and it loses 70 of them. A planner that only stacks
+well when nothing is allowed to disturb the stack has not solved the problem; it has solved a
+picture of it.
+
+The beam search pays for its completion rate in two places, and both are visible above: it
+places a little less precisely (3.1 mm mean against the heuristic's 2.6) and it rests fewer
+packages on solid ground (66 % against 73 %), because it deliberately bridges gaps the
+heuristic refuses. It also runs a tighter worst-case margin, +47 mm against +53 mm. Never
+negative, in any planner, in any mode.
+
 ### What the belt was costing
 
-The previous table was measured at `ebad291`, before the conveyor handed the carton over
-properly: the station sat at the downstream lip, so a carton stopped with **40 to 205 mm of it
-in the air**. Re-running *both* commits over the same levels and seeds isolates what that cost:
+Five commits back, at `ebad291`, the conveyor did not hand the carton over properly: the
+station sat at the downstream lip, so a carton stopped with **40 to 205 mm of it in the air**.
+Running the beam search at *both* commits, same levels, same seeds, isolates what that cost:
 
-| | `ebad291` | `6724d81` |
+| motion interpolated | `ebad291` | `6724d81` |
 |---|---:|---:|
-| Packages placed — fast-forward | 147 | **148** |
-| Packages placed — motion interpolated | 108 | **112** |
-| Worst *landed* placement error | 12.8 mm | **4.6 mm** |
+| Episodes completed | 20 / 27 | **22 / 27** |
+| Packages placed | 128 · 78 % | **141 · 85 %** |
+| `stack_collapse` failures | 5 | **3** |
+| Worst *landed* placement error, fast-forward | 16.0 mm | **5.1 mm** |
 
-All five extra packages are on conveyor levels, and so was the 12.8 mm outlier that used to be
-the worst placement on this page. **Not one package moved on the table or truck levels** — a
-fix showing up exactly where it should and nowhere else.
+Thirteen more packages survive to the end of an episode, and the worst landed placement on the
+page went from 16.0 mm to 5.1 mm. `tests/test_cell.py` now asserts every belt delivery lands
+fully supported, so the mechanism cannot come back unnoticed.
 
-**The headline did not move, and that is the honest half.** Episodes completed is 22 / 27 and
-14 / 27 at *both* commits, the by-tier table is identical, and `stack_collapse` still takes 9
-of the 13 interpolated failures. The belt has stopped causing collapses — `tests/test_cell.py`
-now asserts every delivery lands fully supported — but only three of those nine were ever on a
-belt. The rest are on table and truck levels, and they are still there. The commit that fixed
-the handover measured ten seeds and saw level 23 go 2/10 → 5/10; at three seeds that gain
-arrives as packages placed, not episodes. The method stays at three so the columns stay
-comparable.
-
-So the finding that survived two measurements stands: **the planner's aim does not degrade when
-the motion becomes real — 2.4 mm against 2.6 mm — but the stacks still fall over.** What transit
-costs is not accuracy, it is everything the arm disturbs on the way past.
+**What real transit still costs is visible in the same table, and it is worth saying plainly.**
+Between the two arm modes the beam search loses 3 episodes and 17 packages, its mean placement
+error loosens from 2.5 mm to 3.1 mm and its worst case from 5.1 mm to 9.7 mm, and every one of
+its five interpolated failures but two is a `stack_collapse`. The belt is no longer the cause
+of those; the remaining collapses are on table and truck levels. Moving the arm for real is
+still the hardest thing the cell does — it is simply no longer the belt's fault.
 
 <details>
 <summary><b>The planner earns its keep</b> — against a first-fit baseline</summary>
 
-Ten permutations of the reference scenario, seed 17 — both place every package, so completion
-is not the interesting number:
+A separate harness, inside `tools/`: ten permutations of the reference scenario, seed 17. It
+pits the **beam search** against a first-fit built by crippling that same planner — beam width
+1, no lookahead, every weight zeroed — so the only variable is the search. Both place every
+package, so completion is not the interesting number:
 
-| | first-fit | this planner |
+| | first-fit | beam search |
 |---|---:|---:|
 | Stacks that are strictly stable | 50 % | **100 %** |
 | Mean CoM offset from the pallet centre | 142 mm | **81 mm** |
 
-Unchanged at `6724d81`: the placement package is pure geometry and these five commits did not
-touch it. And the weights are the knobs, not the code. Sweeping the one that pulls the stack's
-centre of gravity toward the middle of the pallet, on level 11:
+Reproduced unchanged at `6724d81`: the placement package is pure geometry and these five
+commits did not touch it. And the weights are the knobs, not the code. Sweeping the one that
+pulls the stack's centre of gravity toward the middle of the pallet, on level 11:
 
 | `pallet_com` | CoG offset | width used | margin |
 |---|---|---|---|
